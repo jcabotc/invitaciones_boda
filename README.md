@@ -18,4 +18,6 @@ Para usar otro puerto:
 PORT=8080 npm start
 ```
 
-Actualmente las respuestas se guardan solo en el almacenamiento local del navegador; no se envían a ningún servidor.
+Las respuestas se envían a un backend serverless de Google Apps Script y se guardan en una hoja privada de Google Sheets. Mientras se completa un envío, el navegador conserva una copia local temporal para permitir reintentos.
+
+El código versionado del backend se encuentra en `apps-script/`. Su manifiesto lo despliega como aplicación web anónima que se ejecuta con los permisos del propietario.
