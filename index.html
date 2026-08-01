@@ -31,56 +31,20 @@
           </div>
           <section class="form-section" aria-labelledby="attendance-title">
             <h2 id="attendance-title">Confirmaci&oacute;n de asistencia</h2>
-          <fieldset>
-            <legend>&iquest;Podr&eacute;is acompa&ntilde;arnos?</legend>
-            <div class="attendance-options">
-              <label class="choice">
-                <input type="radio" name="attendance" value="yes" required />
-                <span>S&iacute;, estaremos encantados de acompa&ntilde;aros</span>
-              </label>
-              <label class="choice">
-                <input type="radio" name="attendance" value="no" />
-                <span>No, no podemos asistir</span>
-              </label>
+            <p class="attendance-intro">Indicad, para cada persona invitada, si podr&aacute; acompa&ntilde;arnos.</p>
+            <div id="invitee-list" class="invitee-list"></div>
+            <p id="missing-invitees" class="configuration-message" hidden>Este enlace no incluye ning&uacute;n invitado. Pedidnos vuestro enlace personalizado para poder responder.</p>
+
+            <div id="decline-details" class="guest-details" hidden>
+              <label for="decline-message">Sentimos mucho que no pod&aacute;is venir. &iquest;Quer&eacute;is dejarnos alg&uacute;n mensaje?</label>
+              <textarea id="decline-message" name="declineMessage" rows="4" placeholder="Vuestro mensaje (opcional)"></textarea>
             </div>
-          </fieldset>
-
-          <div id="decline-details" class="guest-details" hidden>
-            <label for="decline-message">Sentimos mucho que no pod&aacute;is venir. &iquest;Quer&eacute;is dejarnos alg&uacute;n mensaje?</label>
-            <textarea id="decline-message" name="declineMessage" rows="4" placeholder="Vuestro mensaje (opcional)"></textarea>
-          </div>
-
-          <div id="guest-details" class="guest-details" hidden>
-            <div class="guest-counts" aria-label="N&uacute;mero de asistentes">
-              <label for="adult-count">Adultos</label>
-              <select id="adult-count" name="adultCount">
-                <option value="0">0</option><option value="1" selected>1</option><option value="2">2</option>
-              </select>
-
-              <label for="toddler-count">Ni&ntilde;os/ni&ntilde;as/beb&eacute;s</label>
-              <select id="toddler-count" name="toddlerCount">
-                <option value="0" selected>0</option><option value="1">1</option>
-              </select>
-            </div>
-
-            <div class="guest-names" aria-labelledby="guest-names-title">
-              <h2 id="guest-names-title">Nombres y apellidos de asistentes</h2>
-              <label for="guest-name-1">Asistente adulto</label>
-              <input id="guest-name-1" name="guestName1" type="text" autocomplete="name" />
-              <label for="guest-name-2">Asistente adulto</label>
-              <input id="guest-name-2" name="guestName2" type="text" autocomplete="name" />
-              <div id="toddler-name-field" hidden>
-                <label for="guest-name-3">Asistente ni&ntilde;o/ni&ntilde;a/beb&eacute;</label>
-                <input id="guest-name-3" name="guestName3" type="text" autocomplete="name" />
-              </div>
-            </div>
-          </div>
           </section>
 
           <section id="menu-section" class="form-section" aria-labelledby="menu-title" hidden>
             <h2 id="menu-title">Men&uacute; y necesidades alimentarias</h2>
 
-            <fieldset class="menu-question">
+            <fieldset id="adult-dietary-question" class="menu-question">
               <legend>&iquest;Alguno de los asistentes tiene alguna alergia, intolerancia o necesidad alimentaria especial?</legend>
               <div class="attendance-options">
                 <label class="choice"><input type="radio" name="adultDietaryNeeds" value="no" /><span>No</span></label>
@@ -92,7 +56,7 @@
               </div>
             </fieldset>
 
-            <fieldset class="menu-question">
+            <fieldset id="adult-special-menu-question" class="menu-question">
               <legend>&iquest;Alguno de los asistentes sigue una alimentaci&oacute;n vegetariana, vegana o necesita otro tipo de men&uacute; especial?</legend>
               <div class="menu-options">
                 <label class="choice"><input type="radio" name="specialMenu" value="no" /><span>No</span></label>

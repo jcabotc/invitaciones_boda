@@ -5,13 +5,16 @@ const HEADERS = [
   'Fecha de recepción',
   'ID de envío',
   'Código de invitación',
-  'Asistencia',
+  'Asistencia general',
   'Mensaje de no asistencia',
-  'Adultos',
-  'Niños/bebés',
+  'Adultos asistentes',
+  'Niños/bebés asistentes',
   'Adulto 1',
+  'Asiste adulto 1',
   'Adulto 2',
+  'Asiste adulto 2',
   'Niño/bebé',
+  'Asiste niño/bebé',
   'Alergias adultos',
   'Detalle alergias adultos',
   'Menú especial',
@@ -92,14 +95,22 @@ function parsePayload_(event) {
 }
 
 function normalizeResponse_(payload) {
-  const attendance = requiredChoice_(payload.attendance, ['yes', 'no']);
-  const attending = attendance === 'yes';
-  const adultCount = attending ? integer_(payload.adultCount, 0, 2) : 0;
-  const toddlerCount = attending ? integer_(payload.toddlerCount, 0, 1) : 0;
-
-  if (attending && adultCount + toddlerCount < 1) {
-    throw new Error('At least one guest is required');
-  }
+  const invitees = normalizeInvitees_(payload.invitees);
+  const adults = invitees.filter(({ type }) => type === 'adult');
+  const children = invitees.filter(({ type }) => type === 'child');
+  const attendingAdults = adults.filter(({ attendance }) => attendance === 'yes');
+  const attendingChildren = children.filter(({ attendance }) => attendance === 'yes');
+  const adultCount = attendingAdults.length;
+  const toddlerCount = attendingChildren.length;
+  const attending = adultCount + toddlerCount > 0;
+  const attendance = !attending
+    ? 'no'
+    : adultCount + toddlerCount === invitees.length
+      ? 'yes'
+      : 'partial';
+  const adult1 = adults[0] || { name: '', attendance: '' };
+  const adult2 = adults[1] || { name: '', attendance: '' };
+  const child = children[0] || { name: '', attendance: '' };
 
   return {
     submissionId: requiredText_(payload.submissionId, 100),
@@ -108,19 +119,22 @@ function normalizeResponse_(payload) {
     declineMessage: attending ? '' : optionalText_(payload.declineMessage, 2000),
     adultCount,
     toddlerCount,
-    guestName1: attending && adultCount >= 1 ? requiredText_(payload.guestName1, 200) : '',
-    guestName2: attending && adultCount >= 2 ? requiredText_(payload.guestName2, 200) : '',
-    guestName3: attending && toddlerCount >= 1 ? requiredText_(payload.guestName3, 200) : '',
-    adultDietaryNeeds: attending ? optionalChoice_(payload.adultDietaryNeeds, ['yes', 'no']) : '',
-    adultDietaryMessage: attending ? optionalText_(payload.adultDietaryMessage, 2000) : '',
-    specialMenu: attending ? optionalChoice_(payload.specialMenu, ['no', 'vegetarian', 'vegan', 'other']) : '',
-    otherMenuMessage: attending ? optionalText_(payload.otherMenuMessage, 2000) : '',
-    childMenu: attending && toddlerCount ? optionalChoice_(payload.childMenu, ['yes', 'no']) : '',
-    childDietaryNeeds: attending && toddlerCount ? optionalChoice_(payload.childDietaryNeeds, ['yes', 'no']) : '',
-    childDietaryMessage: attending && toddlerCount ? optionalText_(payload.childDietaryMessage, 2000) : '',
-    highChair: attending && toddlerCount ? optionalChoice_(payload.highChair, ['yes', 'no']) : '',
-    strollerSpace: attending && toddlerCount ? optionalChoice_(payload.strollerSpace, ['yes', 'no']) : '',
-    babyNeedsMessage: attending && toddlerCount ? optionalText_(payload.babyNeedsMessage, 2000) : '',
+    guestName1: adult1.name,
+    guestAttendance1: adult1.attendance,
+    guestName2: adult2.name,
+    guestAttendance2: adult2.attendance,
+    guestName3: child.name,
+    guestAttendance3: child.attendance,
+    adultDietaryNeeds: adultCount ? optionalChoice_(payload.adultDietaryNeeds, ['yes', 'no']) : '',
+    adultDietaryMessage: adultCount ? optionalText_(payload.adultDietaryMessage, 2000) : '',
+    specialMenu: adultCount ? optionalChoice_(payload.specialMenu, ['no', 'vegetarian', 'vegan', 'other']) : '',
+    otherMenuMessage: adultCount ? optionalText_(payload.otherMenuMessage, 2000) : '',
+    childMenu: toddlerCount ? optionalChoice_(payload.childMenu, ['yes', 'no']) : '',
+    childDietaryNeeds: toddlerCount ? optionalChoice_(payload.childDietaryNeeds, ['yes', 'no']) : '',
+    childDietaryMessage: toddlerCount ? optionalText_(payload.childDietaryMessage, 2000) : '',
+    highChair: toddlerCount ? optionalChoice_(payload.highChair, ['yes', 'no']) : '',
+    strollerSpace: toddlerCount ? optionalChoice_(payload.strollerSpace, ['yes', 'no']) : '',
+    babyNeedsMessage: toddlerCount ? optionalText_(payload.babyNeedsMessage, 2000) : '',
     accommodationOption: attending ? optionalChoice_(payload.accommodationOption, [
       'marina-portals',
       'maricel',
@@ -152,8 +166,11 @@ function toRow_(response) {
     response.adultCount,
     response.toddlerCount,
     safeCell_(response.guestName1),
+    response.guestAttendance1,
     safeCell_(response.guestName2),
+    response.guestAttendance2,
     safeCell_(response.guestName3),
+    response.guestAttendance3,
     response.adultDietaryNeeds,
     safeCell_(response.adultDietaryMessage),
     response.specialMenu,
@@ -178,6 +195,11 @@ function getResponseSheet_() {
   spreadsheet.setSpreadsheetLocale('es_ES');
   spreadsheet.setSpreadsheetTimeZone('Europe/Madrid');
   const sheet = spreadsheet.getSheetByName(SHEET_NAME) || spreadsheet.insertSheet(SHEET_NAME);
+
+  if (sheet.getMaxColumns() < HEADERS.length) {
+    sheet.insertColumnsAfter(sheet.getMaxColumns(), HEADERS.length - sheet.getMaxColumns());
+  }
+
   const currentHeaders = sheet.getRange(1, 1, 1, HEADERS.length).getValues()[0];
 
   if (currentHeaders.join('\u001f') !== HEADERS.join('\u001f')) {
@@ -193,6 +215,10 @@ function getResponseSheet_() {
     .setVerticalAlignment('middle')
     .setWrap(true);
 
+  const currentFilter = sheet.getFilter();
+  if (currentFilter && currentFilter.getRange().getNumColumns() !== HEADERS.length) {
+    currentFilter.remove();
+  }
   if (!sheet.getFilter()) {
     sheet.getRange(1, 1, sheet.getMaxRows(), HEADERS.length).createFilter();
   }
@@ -205,6 +231,31 @@ function getResponseSheet_() {
   sheet.setColumnWidths(23, 4, 240);
 
   return sheet;
+}
+
+function normalizeInvitees_(value) {
+  if (!Array.isArray(value) || value.length < 1 || value.length > 3) {
+    throw new Error('Invalid invitee list');
+  }
+
+  const invitees = value.map((invitee) => {
+    if (!invitee || typeof invitee !== 'object' || Array.isArray(invitee)) {
+      throw new Error('Invalid invitee');
+    }
+
+    return {
+      name: requiredText_(invitee.name, 200),
+      type: requiredChoice_(invitee.type, ['adult', 'child']),
+      attendance: requiredChoice_(invitee.attendance, ['yes', 'no']),
+    };
+  });
+
+  if (invitees.filter(({ type }) => type === 'adult').length > 2
+      || invitees.filter(({ type }) => type === 'child').length > 1) {
+    throw new Error('Too many invitees');
+  }
+
+  return invitees;
 }
 
 function hasSubmission_(sheet, submissionId) {

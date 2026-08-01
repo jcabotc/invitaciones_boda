@@ -1,10 +1,10 @@
 const form = document.querySelector('#rsvp-form');
-const guestDetails = document.querySelector('#guest-details');
+const inviteeList = document.querySelector('#invitee-list');
+const missingInvitees = document.querySelector('#missing-invitees');
 const declineDetails = document.querySelector('#decline-details');
-const counts = [...document.querySelectorAll('[name$="Count"]')];
-const guestNames = [...document.querySelectorAll('[name^="guestName"]')];
-const toddlerNameField = document.querySelector('#toddler-name-field');
 const menuSection = document.querySelector('#menu-section');
+const adultDietaryQuestion = document.querySelector('#adult-dietary-question');
+const adultSpecialMenuQuestion = document.querySelector('#adult-special-menu-question');
 const babyNeedsSection = document.querySelector('#baby-needs-section');
 const accommodationSection = document.querySelector('#accommodation-section');
 const finalInformationSection = document.querySelector('#final-information-section');
@@ -23,10 +23,133 @@ const marinaRoomTypes = [...document.querySelectorAll('input[name="marinaRoomTyp
 const childMenuInputs = [...document.querySelectorAll('input[name="childMenu"]')];
 const childDietaryInputs = [...document.querySelectorAll('input[name="childDietaryNeeds"]')];
 const submitButton = form.querySelector('button[type="submit"]');
-const RSVP_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwgfUEv_E6vWb9yOaA5XEhjt0nI-x4LQD86znFrZ4wDhlq2drqg5VAVLMgLf0z1szjXDQ/exec';
+const RSVP_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzVj3sA3dbndnm5H7U3dRhyoVdWBtd-18PgmSzQfmwWJCMcvIUp0JQqI5sTwgMTdLXI0g/exec';
 const STORAGE_KEY = 'rsvp-boda-jely-jaime';
 const PENDING_STORAGE_KEY = `${STORAGE_KEY}-pending`;
 let pendingSubmission = null;
+
+function normalizeName(value) {
+  return String(value || '').trim().replace(/\s+/g, ' ').slice(0, 200);
+}
+
+function getInviteesFromUrl() {
+  const params = new URLSearchParams(globalThis.location.search);
+  const namedAdults = [params.get('adult1'), params.get('adult2')];
+  const repeatedAdults = params.getAll('adult');
+  const namedChildren = [params.get('child')];
+  const repeatedChildren = params.getAll('childName');
+  const adults = (namedAdults.some(Boolean) ? namedAdults : repeatedAdults).slice(0, 2);
+  const children = (namedChildren.some(Boolean) ? namedChildren : repeatedChildren).slice(0, 1);
+
+  return [
+    ...adults.map((name) => ({ name: normalizeName(name), type: 'adult' })),
+    ...children.map((name) => ({ name: normalizeName(name), type: 'child' })),
+  ].filter((invitee) => invitee.name);
+}
+
+const invitees = getInviteesFromUrl();
+
+function renderInvitees() {
+  missingInvitees.hidden = invitees.length > 0;
+  submitButton.disabled = invitees.length === 0;
+
+  invitees.forEach((invitee, index) => {
+    const fieldset = document.createElement('fieldset');
+    fieldset.className = 'invitee-card';
+
+    const legend = document.createElement('legend');
+    legend.append(document.createTextNode(invitee.name));
+    const type = document.createElement('span');
+    type.className = 'invitee-meta';
+    type.textContent = invitee.type === 'adult' ? 'Adulto' : 'Niño/a';
+    legend.append(type);
+    fieldset.append(legend);
+
+    const options = document.createElement('div');
+    options.className = 'attendance-options';
+
+    [
+      ['yes', 'Sí, asistirá'],
+      ['no', 'No podrá asistir'],
+    ].forEach(([value, labelText]) => {
+      const label = document.createElement('label');
+      label.className = 'choice';
+      const input = document.createElement('input');
+      input.type = 'radio';
+      input.name = `inviteeAttendance${index}`;
+      input.value = value;
+      input.required = true;
+      input.addEventListener('change', updateAttendanceState);
+      const labelSpan = document.createElement('span');
+      labelSpan.textContent = labelText;
+      label.append(input, labelSpan);
+      options.append(label);
+    });
+
+    fieldset.append(options);
+    inviteeList.append(fieldset);
+  });
+}
+
+function getInviteeResponses() {
+  return invitees.map((invitee, index) => ({
+    ...invitee,
+    attendance: form.elements[`inviteeAttendance${index}`]?.value || '',
+  }));
+}
+
+function clearRadioGroup(name) {
+  document.querySelectorAll(`input[name="${name}"]`).forEach((input) => {
+    input.checked = false;
+  });
+}
+
+function updateAttendanceState() {
+  const responses = getInviteeResponses();
+  const allAnswered = responses.length > 0 && responses.every(({ attendance }) => attendance);
+  const attending = responses.filter(({ attendance }) => attendance === 'yes');
+  const attendingAdults = attending.filter(({ type }) => type === 'adult');
+  const attendingChildren = attending.filter(({ type }) => type === 'child');
+  const hasAttendees = attending.length > 0;
+  const hasAdult = attendingAdults.length > 0;
+  const hasChild = attendingChildren.length > 0;
+  const nobodyAttends = allAnswered && !hasAttendees;
+  const needsChildMenu = hasChild && form.elements.childMenu.value === 'yes';
+  const hasChildDietaryNeeds = needsChildMenu && form.elements.childDietaryNeeds.value === 'yes';
+
+  declineDetails.hidden = !nobodyAttends;
+  menuSection.hidden = !hasAttendees;
+  adultDietaryQuestion.hidden = !hasAdult;
+  adultSpecialMenuQuestion.hidden = !hasAdult;
+  accommodationSection.hidden = !hasAttendees;
+  finalInformationSection.hidden = !hasAttendees;
+  farewellMessage.hidden = !hasAttendees;
+  babyNeedsSection.hidden = !hasChild;
+  childMenuQuestion.hidden = !hasChild;
+  childDietaryQuestion.hidden = !needsChildMenu;
+  childDietaryDetails.hidden = !hasChildDietaryNeeds;
+
+  if (!hasAdult) {
+    clearRadioGroup('adultDietaryNeeds');
+    clearRadioGroup('specialMenu');
+    adultDietaryDetails.hidden = true;
+    otherMenuDetails.hidden = true;
+    adultDietaryMessage.required = false;
+    otherMenuMessage.required = false;
+  }
+
+  childMenuInputs.forEach((input) => {
+    input.disabled = !hasChild;
+    if (!hasChild) input.checked = false;
+  });
+  childDietaryInputs.forEach((input) => {
+    input.disabled = !needsChildMenu;
+    if (!needsChildMenu) input.checked = false;
+  });
+  childDietaryMessage.required = hasChildDietaryNeeds;
+  message.textContent = '';
+  message.className = 'form-message';
+}
 
 function createSubmissionId() {
   if (globalThis.crypto?.randomUUID) return globalThis.crypto.randomUUID();
@@ -35,10 +158,23 @@ function createSubmissionId() {
 
 function buildSubmission() {
   const data = Object.fromEntries(new FormData(form));
+  Object.keys(data).forEach((key) => {
+    if (key.startsWith('inviteeAttendance')) delete data[key];
+  });
+
+  const responses = getInviteeResponses();
+  const attending = responses.filter(({ attendance }) => attendance === 'yes');
+  const allAttend = attending.length === responses.length;
+  const params = new URLSearchParams(globalThis.location.search);
+
   return {
     ...data,
     submissionId: createSubmissionId(),
-    inviteCode: new URLSearchParams(globalThis.location.search).get('invite') || '',
+    inviteCode: params.get('invite') || '',
+    attendance: attending.length === 0 ? 'no' : allAttend ? 'yes' : 'partial',
+    adultCount: attending.filter(({ type }) => type === 'adult').length,
+    toddlerCount: attending.filter(({ type }) => type === 'child').length,
+    invitees: responses,
     clientSubmittedAt: new Date().toISOString(),
     sourceUrl: globalThis.location.href,
     userAgent: globalThis.navigator.userAgent,
@@ -58,57 +194,6 @@ async function sendSubmission(response) {
   });
 }
 
-function updateGuestFields() {
-  const attending = form.elements.attendance.value === 'yes';
-  const adultCount = Number(form.elements.adultCount.value);
-  const toddlerCount = Number(form.elements.toddlerCount.value);
-  const totalGuests = adultCount + toddlerCount;
-
-  counts[0].setCustomValidity(attending && (totalGuests < 1 || totalGuests > 3)
-    ? 'Indicad entre una y tres personas asistentes.'
-    : '');
-  const hasMinor = attending && toddlerCount > 0;
-  const needsChildMenu = hasMinor && form.elements.childMenu.value === 'yes';
-  const hasChildDietaryNeeds = needsChildMenu && form.elements.childDietaryNeeds.value === 'yes';
-
-  toddlerNameField.hidden = toddlerCount === 0;
-  babyNeedsSection.hidden = !hasMinor;
-  childMenuQuestion.hidden = !hasMinor;
-  childDietaryQuestion.hidden = !needsChildMenu;
-  childDietaryDetails.hidden = !hasChildDietaryNeeds;
-
-  childMenuInputs.forEach((input) => {
-    input.disabled = !hasMinor;
-    if (!hasMinor) input.checked = false;
-  });
-  childDietaryInputs.forEach((input) => {
-    input.disabled = !needsChildMenu;
-    if (!needsChildMenu) input.checked = false;
-  });
-  childDietaryMessage.required = hasChildDietaryNeeds;
-
-  guestNames[0].required = attending && adultCount >= 1;
-  guestNames[1].required = attending && adultCount >= 2;
-  guestNames[2].required = attending && toddlerCount === 1;
-}
-
-document.querySelectorAll('input[name="attendance"]').forEach((input) => {
-  input.addEventListener('change', () => {
-    const attending = input.value === 'yes';
-    guestDetails.hidden = !attending;
-    declineDetails.hidden = attending;
-    menuSection.hidden = !attending;
-    accommodationSection.hidden = !attending;
-    finalInformationSection.hidden = !attending;
-    farewellMessage.hidden = !attending;
-    updateGuestFields();
-    message.textContent = '';
-    message.className = 'form-message';
-  });
-});
-
-counts.forEach((input) => input.addEventListener('change', updateGuestFields));
-
 document.querySelectorAll('input[name="adultDietaryNeeds"]').forEach((input) => {
   input.addEventListener('change', () => {
     const needsDetails = input.value === 'yes';
@@ -126,11 +211,11 @@ document.querySelectorAll('input[name="specialMenu"]').forEach((input) => {
 });
 
 document.querySelectorAll('input[name="childMenu"]').forEach((input) => {
-  input.addEventListener('change', updateGuestFields);
+  input.addEventListener('change', updateAttendanceState);
 });
 
 document.querySelectorAll('input[name="childDietaryNeeds"]').forEach((input) => {
-  input.addEventListener('change', updateGuestFields);
+  input.addEventListener('change', updateAttendanceState);
 });
 
 document.querySelectorAll('input[name="accommodationOption"]').forEach((input) => {
@@ -142,6 +227,10 @@ document.querySelectorAll('input[name="accommodationOption"]').forEach((input) =
       roomType.required = isMarinaPortals;
     });
   });
+});
+
+form.addEventListener('input', () => {
+  if (!submitButton.disabled) pendingSubmission = null;
 });
 
 form.addEventListener('submit', async (event) => {
@@ -161,9 +250,9 @@ form.addEventListener('submit', async (event) => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(response));
     localStorage.removeItem(PENDING_STORAGE_KEY);
     pendingSubmission = null;
-    message.textContent = response.attendance === 'yes'
-      ? '\u00a1Gracias! Hemos recibido vuestra confirmaci\u00f3n.'
-      : 'Gracias por avisarnos. Os echaremos de menos.';
+    message.textContent = response.attendance === 'no'
+      ? 'Gracias por avisarnos. Os echaremos de menos.'
+      : '\u00a1Gracias! Hemos recibido vuestra confirmaci\u00f3n.';
     submitButton.textContent = 'Confirmaci\u00f3n enviada';
   } catch (error) {
     console.error(error);
@@ -175,3 +264,6 @@ form.addEventListener('submit', async (event) => {
     submitButton.removeAttribute('aria-busy');
   }
 });
+
+renderInvitees();
+updateAttendanceState();

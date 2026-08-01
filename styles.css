@@ -16,6 +16,13 @@ h1 { margin:0; color:var(--olive); font:italic 600 clamp(2.15rem, 7vw, 3.55rem)/
 form { text-align:left; } .form-section { margin-bottom:32px; } .form-section > h2 { margin:0 0 18px; color:var(--olive); font:600 1.45rem "Playfair Display", serif; } fieldset { padding:0; margin:0 0 24px; border:0; } legend, label { display:block; color:var(--olive); font-weight:600; font-size:.95rem; } strong { color:var(--olive); }
 .hp-field { position:absolute !important; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
 legend { margin-bottom:12px; } .attendance-options { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.attendance-intro { margin:-5px 0 18px; line-height:1.55; }
+.invitee-list { display:grid; gap:14px; }
+.invitee-card { margin:0; padding:17px; border:1px solid #bda47d; border-radius:6px; background:rgba(255,255,255,.22); }
+.invitee-card legend { width:100%; margin:0 0 12px; padding:0; color:var(--ink); font:600 1.08rem "Playfair Display", serif; }
+.invitee-meta { display:inline-block; margin-left:7px; padding:3px 7px; border-radius:999px; color:var(--olive); background:rgba(111,127,84,.12); font:600 .67rem "Crimson Pro", Georgia, serif; letter-spacing:.06em; text-transform:uppercase; vertical-align:middle; }
+.invitee-card .choice span { min-height:54px; }
+.configuration-message { margin:0; padding:14px; border:1px solid #a64d49; border-radius:4px; color:#7f3734; background:rgba(255,255,255,.3); line-height:1.5; }
 .field-hint { color:#849089; font-size:.84rem; font-style:italic; font-weight:400; line-height:1.5; }
 .final-information-list { margin:0 0 22px; padding-left:22px; color:var(--ink); font-size:.9rem; line-height:1.6; text-align:justify; }
 .final-information-list li + li { margin-top:12px; }
@@ -41,6 +48,6 @@ legend { margin-bottom:12px; } .attendance-options { display:grid; grid-template
 select, input, textarea { width:100%; color:var(--ink); font:inherit; border:1px solid #c7b28f; border-radius:4px; background:var(--paper); padding:12px 13px; } textarea { resize:vertical; } select:focus, input:focus, textarea:focus { outline:3px solid #dce7df; border-color:var(--green); }
 #comfort-message { margin-top:9px; }
 button { width:100%; padding:15px; border:0; border-radius:4px; color:#fff; background:var(--olive); font:600 1.1rem "Crimson Pro", Georgia, serif; letter-spacing:.02em; cursor:pointer; transition:background .18s, transform .18s; } button:hover { background:#596642; transform:translateY(-1px); }
-button:disabled { cursor:wait; opacity:.72; transform:none; }
+button:disabled { cursor:not-allowed; opacity:.72; transform:none; } button[aria-busy="true"] { cursor:wait; }
 .form-message { min-height:1.5em; margin:15px 0 0; color:var(--olive); text-align:center; font-size:.9rem; } .form-message.error { color:#a64d49; }
 @media (max-width:440px) { .card { padding:35px 24px; } .card::before { inset:-10px; border-width:38px; border-image-width:38px; } .attendance-options, .menu-options { grid-template-columns:1fr; } }
