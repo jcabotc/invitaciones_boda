@@ -1,0 +1,9 @@
+{
+  "name": "formulario-boda-y-bautizo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Formulario de confirmación para la boda de Jaime y Jely y el bautizo de Irene.",
+  "scripts": {
+    "start": "node scripts/serve.mjs"
+  }
+}

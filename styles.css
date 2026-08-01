@@ -1,0 +1,44 @@
+:root { --ink:#242723; --olive:#6f7f54; --green:#75865c; --paper:#efe0c7; --peach:#f4e4d9; --line:#d2c2aa; }
+* { box-sizing:border-box; }
+body { margin:0; min-height:100vh; color:var(--ink); font-family:"Crimson Pro", Georgia, serif; background:radial-gradient(circle at 15% 12%, #e9f0e8 0 8%, transparent 25%), radial-gradient(circle at 88% 90%, #f4e4d9 0 8%, transparent 26%), #f8f5ef; }
+.page-shell { min-height:100vh; display:grid; place-items:center; padding:32px 18px; }
+.card { position:relative; width:min(100%, 650px); background:transparent; padding:clamp(32px, 7vw, 62px); border:0; text-align:center; }
+.card::after { content:""; position:absolute; z-index:1; inset:4px; background:rgba(239,224,199,.97); box-shadow:0 16px 50px rgba(58,70,61,.13); filter:blur(5px); pointer-events:none; }
+.card::before { content:""; position:absolute; z-index:2; inset:-18px; border:54px solid transparent; border-image:url("assets/botanical-border.png") 170 / 54px / 0 round; opacity:.62; pointer-events:none; }
+.card > * { position:relative; z-index:3; }
+.eyebrow { margin:0 0 15px; color:var(--olive); font-size:.72rem; font-weight:600; letter-spacing:.16em; text-transform:uppercase; }
+h1 { margin:0; color:var(--olive); font:italic 600 clamp(2.15rem, 7vw, 3.55rem)/1.18 "Playfair Display", serif; letter-spacing:-.025em; text-wrap:balance; }
+.ornament { display:flex; align-items:center; justify-content:center; gap:12px; margin:25px 0; color:#c69978; font-size:.85rem; } .ornament span { width:62px; height:1px; background:#dfd2c3; }
+.intro { max-width:430px; margin:0 auto 34px; color:var(--ink); line-height:1.65; }
+.event-details { margin:0 0 34px; padding:20px; border:1px solid #bda47d; border-radius:4px; background:rgba(202,171,124,.5); color:var(--ink); text-align:left; }
+.event-details p { margin:0; line-height:1.6; }
+.event-details p + p { margin-top:8px; }
+form { text-align:left; } .form-section { margin-bottom:32px; } .form-section > h2 { margin:0 0 18px; color:var(--olive); font:600 1.45rem "Playfair Display", serif; } fieldset { padding:0; margin:0 0 24px; border:0; } legend, label { display:block; color:var(--olive); font-weight:600; font-size:.95rem; } strong { color:var(--olive); }
+legend { margin-bottom:12px; } .attendance-options { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.field-hint { color:#849089; font-size:.84rem; font-style:italic; font-weight:400; line-height:1.5; }
+.final-information-list { margin:0 0 22px; padding-left:22px; color:var(--ink); font-size:.9rem; line-height:1.6; text-align:justify; }
+.final-information-list li + li { margin-top:12px; }
+.final-information-list li::marker { color:var(--olive); font-size:1.15em; }
+.farewell-message { margin:32px 0 24px; color:var(--ink); font:italic 1rem/1.75 "Libre Baskerville", Georgia, serif; letter-spacing:.018em; text-align:center; }
+.farewell-message strong { display:inline-block; margin-top:7px; color:var(--olive); font:italic 600 1.35rem/1.35 "Playfair Display", serif; }
+.menu-options { display:grid; grid-template-columns:repeat(2, 1fr); gap:10px; }
+.accommodation-options { display:grid; gap:10px; }
+#accommodation-section, #accommodation-section h2, #accommodation-section legend { text-align:left; }
+#accommodation-section .choice span { justify-items:start; text-align:left; }
+#accommodation-section .accommodation-choice-centered span { align-content:center; justify-items:start; text-align:left; }
+.accommodation-choice span { min-height:0; align-content:start; justify-items:start; gap:6px; text-align:left; }
+.accommodation-choice strong { font-size:.95rem; }
+.accommodation-choice small { color:var(--ink); font-size:.84rem; font-weight:400; line-height:1.5; }
+.accommodation-choice input:checked + span small { color:rgba(255,255,255,.9); }
+.room-options { display:grid; gap:8px; margin:10px 0 4px 18px; padding-left:12px; border-left:2px solid #d9e2dc; }
+.room-choice span { min-height:0; display:block; padding:11px 12px; text-align:left; }
+.room-choice strong { margin-right:4px; }
+.accommodation-note { margin:4px 0 0; color:var(--ink); font-size:.84rem; line-height:1.5; }
+.choice { position:relative; display:grid; cursor:pointer; } .choice input { position:absolute; opacity:0; } .choice span { display:grid; min-height:72px; place-items:center; padding:13px 12px; border:1px solid #bda47d; border-radius:4px; color:var(--ink); background:#d9c39e; font-size:.9rem; font-weight:500; text-align:center; transition:.18s; }
+.choice input:checked + span, .choice input:checked + span strong { color:#fff; background:var(--green); border-color:var(--green); } .choice input:focus-visible + span { outline:3px solid #c6d5ca; outline-offset:2px; }
+.guest-details, .conditional-detail { display:grid; gap:9px; margin-bottom:24px; } .guest-counts, .guest-names, #toddler-name-field { display:grid; gap:9px; } [hidden] { display:none !important; } .guest-counts label:not(:first-child), .guest-names label { margin-top:10px; } .guest-names h2 { margin:14px 0 0; color:var(--olive); font:600 1rem "Crimson Pro", Georgia, serif; } .conditional-detail { margin-top:14px; margin-bottom:0; }
+select, input, textarea { width:100%; color:var(--ink); font:inherit; border:1px solid #c7b28f; border-radius:4px; background:var(--paper); padding:12px 13px; } textarea { resize:vertical; } select:focus, input:focus, textarea:focus { outline:3px solid #dce7df; border-color:var(--green); }
+#comfort-message { margin-top:9px; }
+button { width:100%; padding:15px; border:0; border-radius:4px; color:#fff; background:var(--olive); font:600 1.1rem "Crimson Pro", Georgia, serif; letter-spacing:.02em; cursor:pointer; transition:background .18s, transform .18s; } button:hover { background:#596642; transform:translateY(-1px); }
+.form-message { min-height:1.5em; margin:15px 0 0; color:var(--olive); text-align:center; font-size:.9rem; } .form-message.error { color:#a64d49; }
+@media (max-width:440px) { .card { padding:35px 24px; } .card::before { inset:-10px; border-width:38px; border-image-width:38px; } .attendance-options, .menu-options { grid-template-columns:1fr; } }

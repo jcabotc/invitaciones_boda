@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Boda de Jaime &amp; Jely &middot; Bautizo de Irene</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;500;600&family=Libre+Baskerville:ital@1&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="page-shell">
+      <section class="card" aria-labelledby="event-title">
+        <p class="eyebrow">Nos encantar&iacute;a contar contigo</p>
+        <h1 id="event-title">Boda de Jaime &amp; Jely.<br />Bautizo de Irene.</h1>
+        <div class="ornament" aria-hidden="true"><span></span>&#10022;<span></span></div>
+        <p class="intro">Por favor, confirma tu asistencia para poder preparar este d&iacute;a tan especial.</p>
+
+        <section class="event-details" aria-label="Datos principales del evento">
+          <p><strong>Boda Jaime y Jely. Bautizo de Irene.</strong></p>
+          <p><strong>Fecha:</strong> S&aacute;bado 7 de noviembre de 2026.</p>
+          <p><strong>Ceremonia:</strong> a las 11 h en el Oratori de Portals Nous.</p>
+          <p><strong>Celebraci&oacute;n:</strong> a partir de las 13:30 h en el Hotel Maricel.</p>
+        </section>
+
+        <form id="rsvp-form">
+          <section class="form-section" aria-labelledby="attendance-title">
+            <h2 id="attendance-title">Confirmaci&oacute;n de asistencia</h2>
+          <fieldset>
+            <legend>&iquest;Podr&eacute;is acompa&ntilde;arnos?</legend>
+            <div class="attendance-options">
+              <label class="choice">
+                <input type="radio" name="attendance" value="yes" required />
+                <span>S&iacute;, estaremos encantados de acompa&ntilde;aros</span>
+              </label>
+              <label class="choice">
+                <input type="radio" name="attendance" value="no" />
+                <span>No, no podemos asistir</span>
+              </label>
+            </div>
+          </fieldset>
+
+          <div id="decline-details" class="guest-details" hidden>
+            <label for="decline-message">Sentimos mucho que no pod&aacute;is venir. &iquest;Quer&eacute;is dejarnos alg&uacute;n mensaje?</label>
+            <textarea id="decline-message" name="declineMessage" rows="4" placeholder="Vuestro mensaje (opcional)"></textarea>
+          </div>
+
+          <div id="guest-details" class="guest-details" hidden>
+            <div class="guest-counts" aria-label="N&uacute;mero de asistentes">
+              <label for="adult-count">Adultos</label>
+              <select id="adult-count" name="adultCount">
+                <option value="0">0</option><option value="1" selected>1</option><option value="2">2</option>
+              </select>
+
+              <label for="toddler-count">Ni&ntilde;os/ni&ntilde;as/beb&eacute;s</label>
+              <select id="toddler-count" name="toddlerCount">
+                <option value="0" selected>0</option><option value="1">1</option>
+              </select>
+            </div>
+
+            <div class="guest-names" aria-labelledby="guest-names-title">
+              <h2 id="guest-names-title">Nombres y apellidos de asistentes</h2>
+              <label for="guest-name-1">Asistente adulto</label>
+              <input id="guest-name-1" name="guestName1" type="text" autocomplete="name" />
+              <label for="guest-name-2">Asistente adulto</label>
+              <input id="guest-name-2" name="guestName2" type="text" autocomplete="name" />
+              <div id="toddler-name-field" hidden>
+                <label for="guest-name-3">Asistente ni&ntilde;o/ni&ntilde;a/beb&eacute;</label>
+                <input id="guest-name-3" name="guestName3" type="text" autocomplete="name" />
+              </div>
+            </div>
+          </div>
+          </section>
+
+          <section id="menu-section" class="form-section" aria-labelledby="menu-title" hidden>
+            <h2 id="menu-title">Men&uacute; y necesidades alimentarias</h2>
+
+            <fieldset class="menu-question">
+              <legend>&iquest;Alguno de los asistentes tiene alguna alergia, intolerancia o necesidad alimentaria especial?</legend>
+              <div class="attendance-options">
+                <label class="choice"><input type="radio" name="adultDietaryNeeds" value="no" /><span>No</span></label>
+                <label class="choice"><input type="radio" name="adultDietaryNeeds" value="yes" /><span>S&iacute;</span></label>
+              </div>
+              <div id="adult-dietary-details" class="conditional-detail" hidden>
+                <label for="adult-dietary-message">Nombre de la persona y alergia, intolerancia o necesidad alimentaria</label>
+                <textarea id="adult-dietary-message" name="adultDietaryMessage" rows="4"></textarea>
+              </div>
+            </fieldset>
+
+            <fieldset class="menu-question">
+              <legend>&iquest;Alguno de los asistentes sigue una alimentaci&oacute;n vegetariana, vegana o necesita otro tipo de men&uacute; especial?</legend>
+              <div class="menu-options">
+                <label class="choice"><input type="radio" name="specialMenu" value="no" /><span>No</span></label>
+                <label class="choice"><input type="radio" name="specialMenu" value="vegetarian" /><span>Men&uacute; vegetariano</span></label>
+                <label class="choice"><input type="radio" name="specialMenu" value="vegan" /><span>Men&uacute; vegano</span></label>
+                <label class="choice"><input type="radio" name="specialMenu" value="other" /><span>Otro</span></label>
+              </div>
+              <div id="other-menu-details" class="conditional-detail" hidden>
+                <label for="other-menu-message">Ind&iacute;canos qu&eacute; tipo de men&uacute; necesit&aacute;is</label>
+                <textarea id="other-menu-message" name="otherMenuMessage" rows="3"></textarea>
+              </div>
+            </fieldset>
+
+            <fieldset id="child-menu-question" class="menu-question" hidden>
+              <legend>&iquest;Necesitar&eacute;is men&uacute; infantil?</legend>
+              <div class="attendance-options">
+                <label class="choice"><input type="radio" name="childMenu" value="no" disabled /><span>No, a&uacute;n es lactante</span></label>
+                <label class="choice"><input type="radio" name="childMenu" value="yes" disabled /><span>S&iacute;, necesitaremos men&uacute; infantil</span></label>
+              </div>
+            </fieldset>
+
+            <fieldset id="child-dietary-question" class="menu-question" hidden>
+              <legend>&iquest;Alguno de los ni&ntilde;os/ni&ntilde;as/beb&eacute;s tiene alguna alergia, intolerancia o necesidad alimentaria especial?</legend>
+              <div class="attendance-options">
+                <label class="choice"><input type="radio" name="childDietaryNeeds" value="no" disabled /><span>No</span></label>
+                <label class="choice"><input type="radio" name="childDietaryNeeds" value="yes" disabled /><span>S&iacute;</span></label>
+              </div>
+              <div id="child-dietary-details" class="conditional-detail" hidden>
+                <label for="child-dietary-message">Nombre del ni&ntilde;o/ni&ntilde;a/beb&eacute; y alergia, intolerancia o necesidad alimentaria</label>
+                <textarea id="child-dietary-message" name="childDietaryMessage" rows="4"></textarea>
+              </div>
+            </fieldset>
+          </section>
+
+          <section id="baby-needs-section" class="form-section" aria-labelledby="baby-needs-title" hidden>
+            <h2 id="baby-needs-title">Necesidades para ni&ntilde;os/ni&ntilde;as/beb&eacute;s</h2>
+
+            <fieldset class="menu-question">
+              <legend>&iquest;Necesitar&eacute;is trona durante la comida?</legend>
+              <div class="attendance-options">
+                <label class="choice"><input type="radio" name="highChair" value="yes" /><span>S&iacute;</span></label>
+                <label class="choice"><input type="radio" name="highChair" value="no" /><span>No</span></label>
+              </div>
+            </fieldset>
+
+            <fieldset class="menu-question">
+              <legend>&iquest;Necesitar&eacute;is espacio para colocar un carrito de beb&eacute;?</legend>
+              <div class="attendance-options">
+                <label class="choice"><input type="radio" name="strollerSpace" value="yes" /><span>S&iacute;</span></label>
+                <label class="choice"><input type="radio" name="strollerSpace" value="no" /><span>No</span></label>
+              </div>
+            </fieldset>
+
+            <fieldset class="menu-question">
+              <legend>&iquest;Ten&eacute;is alguna necesidad relacionada con el ni&ntilde;o o la ni&ntilde;a que debamos conocer?</legend>
+              <label for="baby-needs-message" class="field-hint">Por ejemplo, alimentaci&oacute;n especial, necesidad de calentar comida, espacio para cambiarle o cualquier otra indicaci&oacute;n.</label>
+              <textarea id="baby-needs-message" name="babyNeedsMessage" rows="4" placeholder="Vuestra indicaci&oacute;n (opcional)"></textarea>
+            </fieldset>
+          </section>
+
+          <section id="accommodation-section" class="form-section" aria-labelledby="accommodation-title" hidden>
+            <h2 id="accommodation-title">Alojamiento (Del 6 al 8 de noviembre).</h2>
+            <fieldset>
+              <legend>&iquest;Qu&eacute; opci&oacute;n prefieres?</legend>
+              <div class="accommodation-options">
+                <div class="accommodation-group">
+                  <label class="choice accommodation-choice">
+                    <input type="radio" name="accommodationOption" value="marina-portals" />
+                    <span>
+                      <strong>A. Salles Hotels Marina Portals 4*</strong>
+                      <small>Se han reservado con antelaci&oacute;n 4 habitaciones. Puedes elegir una de las siguientes opciones.</small>
+                    </span>
+                  </label>
+                  <div id="marina-room-options" class="room-options" hidden>
+                    <label class="choice room-choice">
+                      <input type="radio" name="marinaRoomType" value="double-deluxe" disabled />
+                      <span><strong>a.</strong> Habitaci&oacute;n doble deluxe (202 &euro;)</span>
+                    </label>
+                    <label class="choice room-choice">
+                      <input type="radio" name="marinaRoomType" value="double-deluxe-2" disabled />
+                      <span><strong>b.</strong> Habitaci&oacute;n doble deluxe (202 &euro;)</span>
+                    </label>
+                    <label class="choice room-choice">
+                      <input type="radio" name="marinaRoomType" value="double-deluxe-cot" disabled />
+                      <span><strong>c.</strong> Habitaci&oacute;n doble deluxe + cuna (202 &euro;)</span>
+                    </label>
+                    <label class="choice room-choice">
+                      <input type="radio" name="marinaRoomType" value="triple-deluxe" disabled />
+                      <span><strong>d.</strong> Habitaci&oacute;n triple deluxe + cuna (275 &euro;)</span>
+                    </label>
+                    <p class="accommodation-note">El hotel se encuentra a 5 minutos de nuestra casa. Para m&aacute;s informaci&oacute;n, contactad con nosotros por WhatsApp.</p>
+                  </div>
+                </div>
+                <label class="choice accommodation-choice">
+                  <input type="radio" name="accommodationOption" value="maricel" />
+                  <span>
+                    <strong>B. Hotel Maricel 5*</strong>
+                    <small>Hotel donde se celebrar&aacute; el banquete. XX% de descuento con el c&oacute;digo XXXX.</small>
+                  </span>
+                </label>
+                <label class="choice accommodation-choice accommodation-choice-centered">
+                  <input type="radio" name="accommodationOption" value="own-accommodation" />
+                  <span><strong>C. Gracias, yo me encargo del alojamiento</strong></span>
+                </label>
+                <label class="choice accommodation-choice accommodation-choice-centered">
+                  <input type="radio" name="accommodationOption" value="mallorca-resident" />
+                  <span><strong>D. Vivo en Mallorca.</strong></span>
+                </label>
+              </div>
+            </fieldset>
+          </section>
+
+          <section id="final-information-section" class="form-section" aria-labelledby="final-information-title" hidden>
+            <h2 id="final-information-title">Informaci&oacute;n general</h2>
+            <ul class="final-information-list">
+              <li>Los desplazamientos entre la iglesia y el lugar de celebraci&oacute;n se realizar&aacute;n en veh&iacute;culos. Para una mejor coordinaci&oacute;n al respecto, pod&eacute;is contactar con nosotros por WhatsApp.</li>
+              <li>El s&aacute;bado 7 de noviembre, tras la celebraci&oacute;n del banquete, os esperamos a todos en nuestra casa para cenar unas <strong>deliciosas pizzas</strong> y continuar con el festejo.<br /><strong>Direcci&oacute;n:</strong> Calle Hostalets, 16, casa. 07181 Portals Nous.</li>
+            </ul>
+            <label for="comfort-message">&iquest;Hay algo que debamos saber para que est&eacute;is c&oacute;modos durante la celebraci&oacute;n?</label>
+            <textarea id="comfort-message" name="comfortMessage" rows="4" placeholder="Escribid aqu&iacute; cualquier indicaci&oacute;n (opcional)"></textarea>
+          </section>
+
+          <p id="farewell-message" class="farewell-message" hidden>&iexcl;Muchas gracias por ayudarnos con la organizaci&oacute;n!<br />Tenemos muchas ganas de compartir este d&iacute;a tan especial con todos vosotros.<br /><strong>Jaime, Jely e Irene.</strong></p>
+
+          <button type="submit">Enviar confirmaci&oacute;n</button>
+          <p id="form-message" class="form-message" role="status" aria-live="polite"></p>
+        </form>
+      </section>
+    </main>
+    <script src="app.js"></script>
+  </body>
+</html>
