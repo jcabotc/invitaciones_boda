@@ -4,6 +4,7 @@
   "private": true,
   "description": "Formulario de confirmación para la boda de Jaime y Jely y el bautizo de Irene.",
   "scripts": {
-    "start": "node scripts/serve.mjs"
+    "start": "node scripts/serve.mjs",
+    "generate-qr": "uv run scripts/generate_qr.py"
   }
 }

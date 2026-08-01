@@ -1,2 +1,6 @@
 .DS_Store
 node_modules/
+private/invitados.csv
+output/pdf/
+output/qr/
+tmp/pdfs/
