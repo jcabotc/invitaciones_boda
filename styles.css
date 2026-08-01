@@ -15,13 +15,19 @@ h1 { margin:0; color:var(--olive); font:italic 600 clamp(2.15rem, 7vw, 3.55rem)/
 .event-details p + p { margin-top:8px; }
 form { text-align:left; } .form-section { margin-bottom:32px; } .form-section > h2 { margin:0 0 18px; color:var(--olive); font:600 1.45rem "Playfair Display", serif; } fieldset { padding:0; margin:0 0 24px; border:0; } legend, label { display:block; color:var(--olive); font-weight:600; font-size:.95rem; } strong { color:var(--olive); }
 .hp-field { position:absolute !important; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
+.visually-hidden { position:absolute !important; width:1px; height:1px; margin:-1px; padding:0; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0; }
 legend { margin-bottom:12px; } .attendance-options { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
 .attendance-intro { margin:-5px 0 18px; line-height:1.55; }
-.invitee-list { display:grid; gap:14px; }
-.invitee-card { margin:0; padding:17px; border:1px solid #bda47d; border-radius:6px; background:rgba(255,255,255,.22); }
-.invitee-card legend { width:100%; margin:0 0 12px; padding:0; color:var(--ink); font:600 1.08rem "Playfair Display", serif; }
-.invitee-meta { display:inline-block; margin-left:7px; padding:3px 7px; border-radius:999px; color:var(--olive); background:rgba(111,127,84,.12); font:600 .67rem "Crimson Pro", Georgia, serif; letter-spacing:.06em; text-transform:uppercase; vertical-align:middle; }
-.invitee-card .choice span { min-height:54px; }
+.invitee-list { border-top:1px solid rgba(189,164,125,.62); border-bottom:1px solid rgba(189,164,125,.62); }
+.invitee-row { display:grid; grid-template-columns:minmax(0, 1fr) auto; align-items:center; gap:18px; padding:15px 0; }
+.invitee-row + .invitee-row { border-top:1px solid rgba(189,164,125,.38); }
+.invitee-name { min-width:0; margin:0; color:var(--ink); font:600 1.05rem/1.3 "Playfair Display", serif; overflow-wrap:anywhere; }
+.attendance-toggle { display:grid; grid-template-columns:repeat(2, 1fr); margin:0; padding:3px; border:1px solid #bda47d; border-radius:999px; background:rgba(217,195,158,.5); }
+.toggle-option { position:relative; cursor:pointer; }
+.toggle-option input { position:absolute; opacity:0; }
+.toggle-option span { display:grid; min-width:88px; min-height:36px; place-items:center; padding:7px 10px; border-radius:999px; color:var(--ink); font-size:.78rem; font-weight:600; line-height:1.1; text-align:center; transition:background .18s, color .18s, box-shadow .18s; }
+.toggle-option input:checked + span { color:#fff; background:var(--green); box-shadow:0 2px 7px rgba(58,70,61,.18); }
+.toggle-option input:focus-visible + span { outline:3px solid #c6d5ca; outline-offset:2px; }
 .configuration-message { margin:0; padding:14px; border:1px solid #a64d49; border-radius:4px; color:#7f3734; background:rgba(255,255,255,.3); line-height:1.5; }
 .field-hint { color:#849089; font-size:.84rem; font-style:italic; font-weight:400; line-height:1.5; }
 .final-information-list { margin:0 0 22px; padding-left:22px; color:var(--ink); font-size:.9rem; line-height:1.6; text-align:justify; }
@@ -50,4 +56,4 @@ select, input, textarea { width:100%; color:var(--ink); font:inherit; border:1px
 button { width:100%; padding:15px; border:0; border-radius:4px; color:#fff; background:var(--olive); font:600 1.1rem "Crimson Pro", Georgia, serif; letter-spacing:.02em; cursor:pointer; transition:background .18s, transform .18s; } button:hover { background:#596642; transform:translateY(-1px); }
 button:disabled { cursor:not-allowed; opacity:.72; transform:none; } button[aria-busy="true"] { cursor:wait; }
 .form-message { min-height:1.5em; margin:15px 0 0; color:var(--olive); text-align:center; font-size:.9rem; } .form-message.error { color:#a64d49; }
-@media (max-width:440px) { .card { padding:35px 24px; } .card::before { inset:-10px; border-width:38px; border-image-width:38px; } .attendance-options, .menu-options { grid-template-columns:1fr; } }
+@media (max-width:440px) { .card { padding:35px 24px; } .card::before { inset:-10px; border-width:38px; border-image-width:38px; } .attendance-options, .menu-options { grid-template-columns:1fr; } .invitee-row { gap:10px; } .toggle-option span { min-width:72px; padding-inline:7px; font-size:.7rem; } }

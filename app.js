@@ -54,40 +54,43 @@ function renderInvitees() {
   submitButton.disabled = invitees.length === 0;
 
   invitees.forEach((invitee, index) => {
-    const fieldset = document.createElement('fieldset');
-    fieldset.className = 'invitee-card';
+    const row = document.createElement('div');
+    row.className = 'invitee-row';
 
+    const name = document.createElement('p');
+    name.id = `invitee-name-${index}`;
+    name.className = 'invitee-name';
+    name.textContent = invitee.name;
+
+    const toggle = document.createElement('fieldset');
+    toggle.className = 'attendance-toggle';
+    toggle.setAttribute('aria-labelledby', name.id);
     const legend = document.createElement('legend');
-    legend.append(document.createTextNode(invitee.name));
-    const type = document.createElement('span');
-    type.className = 'invitee-meta';
-    type.textContent = invitee.type === 'adult' ? 'Adulto' : 'Niño/a';
-    legend.append(type);
-    fieldset.append(legend);
-
-    const options = document.createElement('div');
-    options.className = 'attendance-options';
+    legend.className = 'visually-hidden';
+    legend.textContent = `Asistencia de ${invitee.name}`;
+    toggle.append(legend);
 
     [
-      ['yes', 'Sí, asistirá'],
-      ['no', 'No podrá asistir'],
+      ['no', 'No asistirá'],
+      ['yes', 'Sí asistirá'],
     ].forEach(([value, labelText]) => {
       const label = document.createElement('label');
-      label.className = 'choice';
+      label.className = 'toggle-option';
       const input = document.createElement('input');
       input.type = 'radio';
       input.name = `inviteeAttendance${index}`;
       input.value = value;
       input.required = true;
+      input.setAttribute('aria-label', `${invitee.name}: ${labelText}`);
       input.addEventListener('change', updateAttendanceState);
       const labelSpan = document.createElement('span');
       labelSpan.textContent = labelText;
       label.append(input, labelSpan);
-      options.append(label);
+      toggle.append(label);
     });
 
-    fieldset.append(options);
-    inviteeList.append(fieldset);
+    row.append(name, toggle);
+    inviteeList.append(row);
   });
 }
 
