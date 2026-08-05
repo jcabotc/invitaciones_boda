@@ -44,10 +44,6 @@ legend { margin-bottom:12px; } .attendance-options { display:grid; grid-template
 .accommodation-choice strong { font-size:.95rem; }
 .accommodation-choice small { color:var(--ink); font-size:.84rem; font-weight:400; line-height:1.5; }
 .accommodation-choice input:checked + span small { color:rgba(255,255,255,.9); }
-.room-options { display:grid; gap:8px; margin:10px 0 4px 18px; padding-left:12px; border-left:2px solid #d9e2dc; }
-.room-choice span { min-height:0; display:block; padding:11px 12px; text-align:left; }
-.room-choice strong { margin-right:4px; }
-.accommodation-note { margin:4px 0 0; color:var(--ink); font-size:.84rem; line-height:1.5; }
 .choice { position:relative; display:grid; cursor:pointer; } .choice input { position:absolute; opacity:0; } .choice span { display:grid; min-height:72px; place-items:center; padding:13px 12px; border:1px solid #bda47d; border-radius:4px; color:var(--ink); background:#d9c39e; font-size:.9rem; font-weight:500; text-align:center; transition:.18s; }
 .choice input:checked + span, .choice input:checked + span strong { color:#fff; background:var(--green); border-color:var(--green); } .choice input:focus-visible + span { outline:3px solid #c6d5ca; outline-offset:2px; }
 .guest-details, .conditional-detail { display:grid; gap:9px; margin-bottom:24px; } .guest-counts, .guest-names, #toddler-name-field { display:grid; gap:9px; } [hidden] { display:none !important; } .guest-counts label:not(:first-child), .guest-names label { margin-top:10px; } .guest-names h2 { margin:14px 0 0; color:var(--olive); font:600 1rem "Crimson Pro", Georgia, serif; } .conditional-detail { margin-top:14px; margin-bottom:0; }

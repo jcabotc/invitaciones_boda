@@ -18,8 +18,6 @@ const childDietaryDetails = document.querySelector('#child-dietary-details');
 const adultDietaryMessage = document.querySelector('#adult-dietary-message');
 const otherMenuMessage = document.querySelector('#other-menu-message');
 const childDietaryMessage = document.querySelector('#child-dietary-message');
-const marinaRoomOptions = document.querySelector('#marina-room-options');
-const marinaRoomTypes = [...document.querySelectorAll('input[name="marinaRoomType"]')];
 const childMenuInputs = [...document.querySelectorAll('input[name="childMenu"]')];
 const childDietaryInputs = [...document.querySelectorAll('input[name="childDietaryNeeds"]')];
 const submitButton = form.querySelector('button[type="submit"]');
@@ -219,17 +217,6 @@ document.querySelectorAll('input[name="childMenu"]').forEach((input) => {
 
 document.querySelectorAll('input[name="childDietaryNeeds"]').forEach((input) => {
   input.addEventListener('change', updateAttendanceState);
-});
-
-document.querySelectorAll('input[name="accommodationOption"]').forEach((input) => {
-  input.addEventListener('change', () => {
-    const isMarinaPortals = input.value === 'marina-portals';
-    marinaRoomOptions.hidden = !isMarinaPortals;
-    marinaRoomTypes.forEach((roomType) => {
-      roomType.disabled = !isMarinaPortals;
-      roomType.required = isMarinaPortals;
-    });
-  });
 });
 
 form.addEventListener('input', () => {

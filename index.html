@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;500;600&family=Libre+Baskerville:ital@1&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css?v=4" />
+    <link rel="stylesheet" href="styles.css?v=5" />
   </head>
   <body>
     <main class="page-shell">
@@ -122,34 +122,13 @@
             <fieldset>
               <legend>&iquest;Qu&eacute; opci&oacute;n prefieres?</legend>
               <div class="accommodation-options">
-                <div class="accommodation-group">
-                  <label class="choice accommodation-choice">
-                    <input type="radio" name="accommodationOption" value="marina-portals" />
-                    <span>
-                      <strong>A. Salles Hotels Marina Portals 4*</strong>
-                      <small>Se han reservado con antelaci&oacute;n 4 habitaciones. Puedes elegir una de las siguientes opciones.</small>
-                    </span>
-                  </label>
-                  <div id="marina-room-options" class="room-options" hidden>
-                    <label class="choice room-choice">
-                      <input type="radio" name="marinaRoomType" value="double-deluxe" disabled />
-                      <span><strong>a.</strong> Habitaci&oacute;n doble deluxe (202 &euro;)</span>
-                    </label>
-                    <label class="choice room-choice">
-                      <input type="radio" name="marinaRoomType" value="double-deluxe-2" disabled />
-                      <span><strong>b.</strong> Habitaci&oacute;n doble deluxe (202 &euro;)</span>
-                    </label>
-                    <label class="choice room-choice">
-                      <input type="radio" name="marinaRoomType" value="double-deluxe-cot" disabled />
-                      <span><strong>c.</strong> Habitaci&oacute;n doble deluxe + cuna (202 &euro;)</span>
-                    </label>
-                    <label class="choice room-choice">
-                      <input type="radio" name="marinaRoomType" value="triple-deluxe" disabled />
-                      <span><strong>d.</strong> Habitaci&oacute;n triple deluxe + cuna (275 &euro;)</span>
-                    </label>
-                    <p class="accommodation-note">El hotel se encuentra a 5 minutos de nuestra casa. Para m&aacute;s informaci&oacute;n, contactad con nosotros por WhatsApp.</p>
-                  </div>
-                </div>
+                <label class="choice accommodation-choice">
+                  <input type="radio" name="accommodationOption" value="marina-portals" />
+                  <span>
+                    <strong>A. Salles Hotels Marina Portals 4*</strong>
+                    <small>Se han reservado con antelaci&oacute;n 4 habitaciones:<br />&bull; 2 habitaciones dobles deluxe (202 &euro;)<br />&bull; 1 habitaci&oacute;n doble deluxe + cuna (202 &euro;)<br />&bull; 1 habitaci&oacute;n triple deluxe + cuna (275 &euro;)<br />El hotel se encuentra a 5 minutos de nuestra casa. La habitaci&oacute;n se concretar&aacute; posteriormente con nosotros por WhatsApp.</small>
+                  </span>
+                </label>
                 <label class="choice accommodation-choice">
                   <input type="radio" name="accommodationOption" value="maricel" />
                   <span>
@@ -186,6 +165,6 @@
         </form>
       </section>
     </main>
-    <script src="app.js?v=4"></script>
+    <script src="app.js?v=5"></script>
   </body>
 </html>
