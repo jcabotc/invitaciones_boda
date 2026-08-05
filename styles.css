@@ -38,13 +38,16 @@ legend { margin-bottom:12px; } .attendance-options { display:grid; grid-template
 .menu-options { display:grid; grid-template-columns:repeat(2, 1fr); gap:10px; }
 .accommodation-options { display:grid; gap:10px; }
 #accommodation-section, #accommodation-section h2, #accommodation-section legend { text-align:left; }
-#accommodation-section .choice span { justify-items:start; text-align:left; }
-#accommodation-section .accommodation-choice-centered span { align-content:center; justify-items:start; text-align:left; }
-.accommodation-choice span { min-height:0; align-content:start; justify-items:start; gap:6px; text-align:left; }
+#accommodation-section .choice > span { justify-items:start; text-align:left; }
+#accommodation-section .accommodation-choice-centered > span { align-content:center; justify-items:start; text-align:left; }
+.accommodation-choice > span { min-height:0; align-content:start; justify-items:start; gap:6px; text-align:left; }
 .accommodation-choice strong { font-size:.95rem; }
 .accommodation-choice small { color:var(--ink); font-size:.84rem; font-weight:400; line-height:1.5; }
+.accommodation-room-list { display:grid; gap:1px; margin:3px 0; padding-left:18px; }
+.accommodation-room-list > span { position:relative; display:block; padding-left:11px; }
+.accommodation-room-list > span::before { content:"\2022"; position:absolute; left:0; }
 .accommodation-choice input:checked + span small { color:rgba(255,255,255,.9); }
-.choice { position:relative; display:grid; cursor:pointer; } .choice input { position:absolute; opacity:0; } .choice span { display:grid; min-height:72px; place-items:center; padding:13px 12px; border:1px solid #bda47d; border-radius:4px; color:var(--ink); background:#d9c39e; font-size:.9rem; font-weight:500; text-align:center; transition:.18s; }
+.choice { position:relative; display:grid; cursor:pointer; } .choice input { position:absolute; opacity:0; } .choice > span { display:grid; min-height:72px; place-items:center; padding:13px 12px; border:1px solid #bda47d; border-radius:4px; color:var(--ink); background:#d9c39e; font-size:.9rem; font-weight:500; text-align:center; transition:.18s; }
 .choice input:checked + span, .choice input:checked + span strong { color:#fff; background:var(--green); border-color:var(--green); } .choice input:focus-visible + span { outline:3px solid #c6d5ca; outline-offset:2px; }
 .guest-details, .conditional-detail { display:grid; gap:9px; margin-bottom:24px; } .guest-counts, .guest-names, #toddler-name-field { display:grid; gap:9px; } [hidden] { display:none !important; } .guest-counts label:not(:first-child), .guest-names label { margin-top:10px; } .guest-names h2 { margin:14px 0 0; color:var(--olive); font:600 1rem "Crimson Pro", Georgia, serif; } .conditional-detail { margin-top:14px; margin-bottom:0; }
 select, input, textarea { width:100%; color:var(--ink); font:inherit; border:1px solid #c7b28f; border-radius:4px; background:var(--paper); padding:12px 13px; } textarea { resize:vertical; } select:focus, input:focus, textarea:focus { outline:3px solid #dce7df; border-color:var(--green); }
