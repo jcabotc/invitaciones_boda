@@ -69,8 +69,8 @@ function renderInvitees() {
     toggle.append(legend);
 
     [
-      ['no', 'No asistirá'],
       ['yes', 'Sí asistirá'],
+      ['no', 'No asistirá'],
     ].forEach(([value, labelText]) => {
       const label = document.createElement('label');
       label.className = 'toggle-option';
